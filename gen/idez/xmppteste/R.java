@@ -18,9 +18,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
         public static final int ic_menu_chat_dashboard=0x7f020001;
         public static final int ic_menu_close_clear_cancel=0x7f020002;
-        public static final int ic_menu_friendslist=0x7f020003;
-        public static final int ic_menu_refresh=0x7f020004;
-        public static final int xmpp_logo=0x7f020005;
+        public static final int ic_menu_disconnect=0x7f020003;
+        public static final int ic_menu_friendslist=0x7f020004;
+        public static final int ic_menu_refresh=0x7f020005;
+        public static final int xmpp_logo=0x7f020006;
     }
     public static final class id {
         public static final int botaoEnviar=0x7f080003;
@@ -30,6 +31,7 @@ public final class R {
         public static final int itemCloseChat=0x7f080005;
         public static final int itemConnect=0x7f080009;
         public static final int itemContacts=0x7f080008;
+        public static final int itemExit=0x7f08000a;
         public static final int itemListChats=0x7f080006;
         public static final int itemPrefs=0x7f080007;
         public static final int linearLayout1=0x7f080001;

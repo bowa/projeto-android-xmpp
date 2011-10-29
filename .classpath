@@ -4,6 +4,8 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="lib/asmack-2010.05.07.jar"/>
+	<classpathentry kind="lib" path="/media/ARQUIVOS/PosGraduacao/Materiais/7.Protocolos Redes Móveis/Jars para XMPP/asmack-2010.05.07.jar"/>
+	<classpathentry kind="lib" path="/media/ARQUIVOS/PosGraduacao/Materiais/7.Protocolos Redes Móveis/Jars para XMPP/asmack-jse.jar"/>
+	<classpathentry kind="lib" path="/media/ARQUIVOS/PosGraduacao/Materiais/7.Protocolos Redes Móveis/Jars para XMPP/asmack-jse-buddycloud.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

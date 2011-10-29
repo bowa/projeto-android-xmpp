@@ -45,7 +45,9 @@ public class XmpptesteActivity extends Activity {
 			break;
 		case R.id.itemConnect:
 			((XMPPApplication) getApplication()).conectar();
-			
+			break;
+		case R.id.itemExit:
+			((XMPPApplication) getApplication()).desconectar();
 			break;
 		}
 		return true;
