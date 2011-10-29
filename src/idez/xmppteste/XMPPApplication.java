@@ -8,8 +8,8 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 public class XMPPApplication extends Application {
@@ -25,28 +25,10 @@ public class XMPPApplication extends Application {
 	}
 
 	public void conectar() {
-		
-		if (this.xmppConnection != null)
-			if (this.xmppConnection.isConnected())
-				return;
-		
-		String username = this.prefs.getString("username", "");
-		String password = this.prefs.getString("password", "");
-		String host     = this.prefs.getString("host", "talk.google.com");
-		Integer port    = this.prefs.getInt("port", 5222);
-		
-		ConnectionConfiguration config = new ConnectionConfiguration(host, port);
-//		config.setSecurityMode(this.prefs.getBoolean("security", false));		
-		config.setSecurityMode(SecurityMode.required);
-		config.setSASLAuthenticationEnabled(this.prefs.getBoolean("sas", false));
-		this.xmppConnection = new XMPPConnection(config);
-		
-		try {
-			this.xmppConnection.connect();
-			this.xmppConnection.login(username, password);
-		} catch (Exception e) {
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-		}
+		new ConectarXmpp().doInBackground( prefs.getString("username", ""), 
+				                           prefs.getString("password", ""), 
+				                           prefs.getString("host", ""), 
+				                           prefs.getString("port", "5222"));
 	}
 	
 	public XMPPConnection getXmppConnection() {
@@ -63,5 +45,34 @@ public class XMPPApplication extends Application {
 	
 	public void setActiveChats(ArrayList<ChatActivity> activeChats) {
 		this.activeChats = activeChats;
+	}
+	
+	class ConectarXmpp extends AsyncTask<String, Integer, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			if (xmppConnection != null)
+				if (xmppConnection.isConnected())
+					return "Já existe uma conexão aberta.";
+			
+			String username = params[0];
+			String password = params[1];
+			String host     = params[2];
+			Integer port    = Integer.parseInt(params[3]);
+			
+			ConnectionConfiguration config = new ConnectionConfiguration(host, port);
+			config.setSecurityMode(SecurityMode.required);
+			config.setSASLAuthenticationEnabled(prefs.getBoolean("sas", false));
+			xmppConnection = new XMPPConnection(config);
+			try {
+				xmppConnection.connect();
+				xmppConnection.login(username, password);
+			} catch (Exception e) {
+				Toast.makeText(XMPPApplication.this, e.getMessage(), Toast.LENGTH_LONG).show();
+				return e.getMessage();
+			}
+			
+			return "Conexão realizada com sucesso.";
+		}
+		
 	}
 }
