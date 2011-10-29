@@ -52,12 +52,15 @@ public class XMPPApplication extends Application {
 	public XMPPConnection getXmppConnection() {
 		return xmppConnection;
 	}
+	
 	public void setXmppConnection(XMPPConnection xmppConnection) {
 		this.xmppConnection = xmppConnection;
 	}
+	
 	public ArrayList<ChatActivity> getActiveChats() {
 		return activeChats;
 	}
+	
 	public void setActiveChats(ArrayList<ChatActivity> activeChats) {
 		this.activeChats = activeChats;
 	}

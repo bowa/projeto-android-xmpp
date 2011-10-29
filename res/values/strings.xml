@@ -12,7 +12,7 @@
     <string name="titleConnect">Conectar</string>
     <string name="titleCloseChat">Encerrar Conversa</string>
     <string name="titleListChats">Lista de Conversas</string>
+    <string name="titleExit">Exit</string>
     <string name="sas">SAS Preferences</string>
     <string name="security">Security Preferences</string>
-
 </resources>
