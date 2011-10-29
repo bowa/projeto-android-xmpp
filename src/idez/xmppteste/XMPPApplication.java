@@ -65,8 +65,8 @@ public class XMPPApplication extends Application {
 		}
 		return "Conectado.";
 	}
-	
-	public void desconectar() {
+
+	public void desconectar()  {
 		if (this.xmppConnection != null)
 			if (this.xmppConnection.isConnected())
 				this.xmppConnection.disconnect();
