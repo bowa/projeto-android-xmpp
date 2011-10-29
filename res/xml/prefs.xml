@@ -4,6 +4,7 @@
     <EditTextPreference android:title="@string/username" android:key="username" />
     <EditTextPreference android:title="@string/password" android:key="password" android:password="true" />
     <EditTextPreference android:title="@string/host" android:key="host" />
+    <EditTextPreference android:title="@string/service" android:key="service" />
     <EditTextPreference android:title="@string/port" android:key="port"/>
     <CheckBoxPreference android:title="@string/sas" android:key="sas"/>
     <ListPreference 
