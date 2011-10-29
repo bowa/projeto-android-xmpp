@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+
 public class XMPPMainActivity extends Activity {
 	
 	private SharedPreferences prefs;
@@ -46,7 +47,6 @@ public class XMPPMainActivity extends Activity {
 			break;
 		case R.id.itemConnect:
 			new Conexao().execute();
-			
 			break;
 		}
 		return true;

@@ -31,6 +31,7 @@ public final class R {
         public static final int itemCloseChat=0x7f080005;
         public static final int itemConnect=0x7f080009;
         public static final int itemContacts=0x7f080008;
+        public static final int itemExit=0x7f08000a;
         public static final int itemListChats=0x7f080006;
         public static final int itemPrefs=0x7f080007;
         public static final int linearLayout1=0x7f080001;
