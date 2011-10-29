@@ -10,7 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class XmpptesteActivity extends Activity {
+
+public class XMPPMainActivity extends Activity {
 	
 	private SharedPreferences prefs;
 	

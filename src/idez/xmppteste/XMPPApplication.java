@@ -8,15 +8,14 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
 public class XMPPApplication extends Application {
 	
-	private XMPPConnection xmppConnection = null;
 	private ArrayList<ChatActivity> activeChats = new ArrayList<ChatActivity>();
+	private XMPPConnection xmppConnection = null;
 	private SharedPreferences prefs;
 
 	@Override
@@ -25,13 +24,48 @@ public class XMPPApplication extends Application {
 		super.onCreate();
 	}
 
-	public void conectar() {
-		new ConectarXmpp().doInBackground( prefs.getString("username", ""), 
-				                           prefs.getString("password", ""), 
-				                           prefs.getString("host", "talk.google.com"), 
-				                           prefs.getString("port", "5223"));
+	public String conectar() {
+		if (xmppConnection != null) {
+			if (xmppConnection.isConnected()) {
+				return "Já existe uma conexão aberta.";
+			}
+		}
+		Log.i("Conexão", "Passando parâmetros da conexão...");
+		String username = prefs.getString("username", "");
+		String password = prefs.getString("password", "");
+		String service = prefs.getString("service", "");
+		String host     = prefs.getString("host", "talk.");
+		Integer port    = Integer.parseInt(prefs.getString("port", "5223"));
+		
+		ConnectionConfiguration config = new ConnectionConfiguration(host, port, service);
+		switch (Integer.parseInt(prefs.getString("security", "0"))) {
+		case 0:
+			config.setSecurityMode(SecurityMode.disabled);
+			break;
+		case 1:
+			config.setSecurityMode(SecurityMode.enabled);
+			break;
+		case 2:
+			config.setSecurityMode(SecurityMode.required);
+			break;
+		}
+		config.setSASLAuthenticationEnabled(prefs.getBoolean("sas", false));
+		config.setSASLAuthenticationEnabled(true);
+		config.setSecurityMode(SecurityMode.required);
+		xmppConnection = new XMPPConnection(config);
+		try {
+			Log.i("Conexão", "Iniciando conexão...");
+			xmppConnection.connect();
+			xmppConnection.login(username, password);
+			Log.i("Conexão", "Conectado!");
+		} catch (Exception e) {
+			Log.i("Conexão", e.getMessage());
+			Toast.makeText(XMPPApplication.this, e.getMessage(), Toast.LENGTH_LONG);
+			return e.getMessage();
+		}
+		return "Conectado.";
 	}
-	
+
 	public void desconectar()  {
 		if (this.xmppConnection != null)
 			if (this.xmppConnection.isConnected())
@@ -52,58 +86,5 @@ public class XMPPApplication extends Application {
 	
 	public void setActiveChats(ArrayList<ChatActivity> activeChats) {
 		this.activeChats = activeChats;
-	}
-	
-	class ConectarXmpp extends AsyncTask<String, String, String> {
-		@Override
-		protected String doInBackground(String... params) {
-			if (xmppConnection != null) {
-				if (xmppConnection.isConnected()) {
-					return "Já existe uma conexão aberta.";
-				}
-			}
-			publishProgress("Passando parâmetros da conexão...");
-			
-			String username = params[0];
-			String password = params[1];
-			String host     = params[2];
-			Integer port    = Integer.parseInt(params[3]);
-			
-			ConnectionConfiguration config = new ConnectionConfiguration(host, port);
-			switch (Integer.parseInt(prefs.getString("security", "0"))) {
-			case 0:
-				config.setSecurityMode(SecurityMode.disabled);
-				break;
-			case 1:
-				config.setSecurityMode(SecurityMode.enabled);
-				break;
-			case 2:
-				config.setSecurityMode(SecurityMode.required);
-				break;
-			}
-			config.setSASLAuthenticationEnabled(prefs.getBoolean("sas", false));
-			xmppConnection = new XMPPConnection(config);
-			try {
-				publishProgress("Iniciando conexão...");
-				xmppConnection.connect();
-				xmppConnection.login(username, password);
-			} catch (Exception e) {
-				Log.i("TESTE", e.getMessage());
-				return e.getMessage();
-			}
-			return "Conectado.";
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			Toast.makeText(XMPPApplication.this, result, Toast.LENGTH_LONG);
-		}
-
-		@Override
-		protected void onProgressUpdate(String... values) {
-			Toast.makeText(XMPPApplication.this, values[0], Toast.LENGTH_LONG);
-		}
-		
-		
 	}
 }
