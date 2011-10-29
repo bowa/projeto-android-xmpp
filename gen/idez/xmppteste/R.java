@@ -31,8 +31,9 @@ public final class R {
         public static final int linearLayout1=0x7f070001;
     }
     public static final class layout {
-        public static final int chat=0x7f030000;
-        public static final int main=0x7f030001;
+        public static final int buddies=0x7f030000;
+        public static final int chat=0x7f030001;
+        public static final int main=0x7f030002;
     }
     public static final class menu {
         public static final int chat_menu=0x7f060000;
