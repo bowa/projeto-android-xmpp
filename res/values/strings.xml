@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, XmpptesteActivity!</string>
+    <string name="app_name">Xmppteste</string>
+    <string name="username">Usuário</string>
+    <string name="password">Senha</string>
+    <string name="host">Servidor</string>
+    <string name="titlePrefs">Preferências</string>
+    <string name="port">Porta</string>
+    <string name="titleContacts">Contatos</string>
+    <string name="titleConnect">Conectar</string>
+    <string name="titleCloseChat">Encerrar Conversa</string>
+    <string name="titleListChats">Lista de Conversas</string>
+
+</resources>

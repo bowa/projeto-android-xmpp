@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item 
+  	android:id="@+id/itemCloseChat" 
+  	android:title="@string/titleCloseChat" 
+  	android:icon="@drawable/ic_menu_close_clear_cancel" />
+  <item 
+  	android:id="@+id/itemListChats" 
+  	android:title="@string/titleListChats" 
+  	android:icon="@drawable/ic_menu_chat_dashboard" />
+</menu>

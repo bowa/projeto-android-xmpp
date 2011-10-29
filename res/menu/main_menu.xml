@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  <item 
+  	android:id="@+id/itemPrefs" 
+  	android:title="@string/titlePrefs" 
+  	android:icon="@android:drawable/ic_menu_preferences" />
+  <item 
+  	android:id="@+id/itemContacts" 
+  	android:title="@string/titleContacts" 
+  	android:icon="@drawable/ic_menu_friendslist" />
+  <item 
+  	android:id="@+id/itemConnect" 
+  	android:title="@string/titleConnect" 
+  	android:icon="@drawable/ic_menu_refresh" />
+  <item 
+  	android:id="@+id/itemListChats" 
+  	android:title="@string/titleListChats" 
+  	android:icon="@drawable/ic_menu_chat_dashboard" />
+</menu>
