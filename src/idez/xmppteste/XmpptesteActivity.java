@@ -45,6 +45,7 @@ public class XmpptesteActivity extends Activity {
 			break;
 		case R.id.itemConnect:
 			((XMPPApplication) getApplication()).conectar();
+			
 			break;
 		}
 		return true;

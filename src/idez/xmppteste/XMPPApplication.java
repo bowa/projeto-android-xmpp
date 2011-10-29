@@ -27,8 +27,8 @@ public class XMPPApplication extends Application {
 	public void conectar() {
 		new ConectarXmpp().doInBackground( prefs.getString("username", ""), 
 				                           prefs.getString("password", ""), 
-				                           prefs.getString("host", ""), 
-				                           prefs.getString("port", "5222"));
+				                           prefs.getString("host", "talk.google.com"), 
+				                           prefs.getString("port", "5223"));
 	}
 	
 	public XMPPConnection getXmppConnection() {
