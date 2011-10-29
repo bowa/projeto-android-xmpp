@@ -3,12 +3,13 @@ package idez.xmppteste;
 import java.util.ArrayList;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
+import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class XMPPApplication extends Application {
@@ -31,13 +32,15 @@ public class XMPPApplication extends Application {
 		
 		String username = this.prefs.getString("username", "");
 		String password = this.prefs.getString("password", "");
-		String host     = this.prefs.getString("host", "");
-		Integer port    = this.prefs.getInt("port", 0);
+		String host     = this.prefs.getString("host", "talk.google.com");
+		Integer port    = this.prefs.getInt("port", 5222);
 		
 		ConnectionConfiguration config = new ConnectionConfiguration(host, port);
-		config.setSecurityMode(SecurityMode.disabled);
-		config.setSASLAuthenticationEnabled(false);
+//		config.setSecurityMode(this.prefs.getBoolean("security", false));		
+		config.setSecurityMode(SecurityMode.required);
+		config.setSASLAuthenticationEnabled(this.prefs.getBoolean("sas", false));
 		this.xmppConnection = new XMPPConnection(config);
+		
 		try {
 			this.xmppConnection.connect();
 			this.xmppConnection.login(username, password);

@@ -20,7 +20,7 @@ public class ChatActivity extends Activity {
 		inflater.inflate(R.menu.chat_menu, menu);
 		return true;
 	}
-
+		
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

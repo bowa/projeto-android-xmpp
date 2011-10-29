@@ -8,6 +8,10 @@
 package idez.xmppteste;
 
 public final class R {
+    public static final class array {
+        public static final int securities=0x7f050000;
+        public static final int securityValues=0x7f050001;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -19,37 +23,39 @@ public final class R {
         public static final int xmpp_logo=0x7f020005;
     }
     public static final class id {
-        public static final int button1=0x7f070003;
-        public static final int editText1=0x7f070000;
-        public static final int editText2=0x7f070002;
-        public static final int imageView1=0x7f070004;
-        public static final int itemCloseChat=0x7f070005;
-        public static final int itemConnect=0x7f070009;
-        public static final int itemContacts=0x7f070008;
-        public static final int itemListChats=0x7f070006;
-        public static final int itemPrefs=0x7f070007;
-        public static final int linearLayout1=0x7f070001;
+        public static final int button1=0x7f080003;
+        public static final int editText1=0x7f080000;
+        public static final int editText2=0x7f080002;
+        public static final int imageView1=0x7f080004;
+        public static final int itemCloseChat=0x7f080005;
+        public static final int itemConnect=0x7f080009;
+        public static final int itemContacts=0x7f080008;
+        public static final int itemListChats=0x7f080006;
+        public static final int itemPrefs=0x7f080007;
+        public static final int linearLayout1=0x7f080001;
     }
     public static final class layout {
         public static final int chat=0x7f030000;
         public static final int main=0x7f030001;
     }
     public static final class menu {
-        public static final int chat_menu=0x7f060000;
-        public static final int main_menu=0x7f060001;
+        public static final int chat_menu=0x7f070000;
+        public static final int main_menu=0x7f070001;
     }
     public static final class string {
-        public static final int app_name=0x7f050001;
-        public static final int hello=0x7f050000;
-        public static final int host=0x7f050004;
-        public static final int password=0x7f050003;
-        public static final int port=0x7f050006;
-        public static final int titleCloseChat=0x7f050009;
-        public static final int titleConnect=0x7f050008;
-        public static final int titleContacts=0x7f050007;
-        public static final int titleListChats=0x7f05000a;
-        public static final int titlePrefs=0x7f050005;
-        public static final int username=0x7f050002;
+        public static final int app_name=0x7f060001;
+        public static final int hello=0x7f060000;
+        public static final int host=0x7f060004;
+        public static final int password=0x7f060003;
+        public static final int port=0x7f060006;
+        public static final int sas=0x7f06000b;
+        public static final int security=0x7f06000c;
+        public static final int titleCloseChat=0x7f060009;
+        public static final int titleConnect=0x7f060008;
+        public static final int titleContacts=0x7f060007;
+        public static final int titleListChats=0x7f06000a;
+        public static final int titlePrefs=0x7f060005;
+        public static final int username=0x7f060002;
     }
     public static final class xml {
         public static final int prefs=0x7f040000;

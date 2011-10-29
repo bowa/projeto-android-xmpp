@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference android:title="@string/username" android:key="username"></EditTextPreference>
-    <EditTextPreference android:title="@string/password" android:key="password" android:password="true"></EditTextPreference>
-    <EditTextPreference android:title="@string/host" android:key="host"></EditTextPreference>
-    <EditTextPreference android:title="@string/port" android:key="port"></EditTextPreference>
+    <EditTextPreference android:title="@string/username" android:key="username" />
+    <EditTextPreference android:title="@string/password" android:key="password" android:password="true" />
+    <EditTextPreference android:title="@string/host" android:key="host" />
+    <EditTextPreference android:title="@string/port" android:key="port"/>
+    <CheckBoxPreference android:title="@string/sas" android:key="sas"/>
+    <ListPreference 
+    	android:title="@string/security" 
+    	android:key="security" 
+    	android:entries="@array/securities"
+    	android:entryValues="@array/securityValues"
+    	/>    	                  
     
 </PreferenceScreen>
