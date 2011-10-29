@@ -3,8 +3,8 @@ package idez.xmppteste;
 import java.util.ArrayList;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
+import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -25,7 +25,10 @@ public class XMPPApplication extends Application {
 	}
 
 	public void conectar() {
-		
+		new ConectarXmpp().doInBackground( prefs.getString("username", ""), 
+				                           prefs.getString("password", ""), 
+				                           prefs.getString("host", ""), 
+				                           prefs.getString("port", "5222"));
 	}
 	
 	public XMPPConnection getXmppConnection() {
@@ -42,21 +45,20 @@ public class XMPPApplication extends Application {
 	}
 	
 	class ConectarXmpp extends AsyncTask<String, Integer, String> {
-		
 		@Override
-		protected String doInBackground(String... arg0) {
+		protected String doInBackground(String... params) {
 			if (xmppConnection != null)
 				if (xmppConnection.isConnected())
-					return "Conexão aberta.";
+					return "Já existe uma conexão aberta.";
 			
-			String username = prefs.getString("username", "");
-			String password = prefs.getString("password", "");
-			String host     = prefs.getString("host", "");
-			Integer port    = Integer.parseInt(prefs.getString("port", "5222"));
+			String username = params[0];
+			String password = params[1];
+			String host     = params[2];
+			Integer port    = Integer.parseInt(params[3]);
 			
 			ConnectionConfiguration config = new ConnectionConfiguration(host, port);
 			config.setSecurityMode(SecurityMode.required);
-			config.setSASLAuthenticationEnabled(true);
+			config.setSASLAuthenticationEnabled(prefs.getBoolean("sas", false));
 			xmppConnection = new XMPPConnection(config);
 			try {
 				xmppConnection.connect();
