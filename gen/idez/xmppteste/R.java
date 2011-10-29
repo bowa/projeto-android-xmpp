@@ -20,7 +20,8 @@ public final class R {
         public static final int ic_menu_close_clear_cancel=0x7f020002;
         public static final int ic_menu_friendslist=0x7f020003;
         public static final int ic_menu_refresh=0x7f020004;
-        public static final int xmpp_logo=0x7f020005;
+        public static final int ic_notification_clear_all=0x7f020005;
+        public static final int xmpp_logo=0x7f020006;
     }
     public static final class id {
         public static final int botaoEnviar=0x7f080003;

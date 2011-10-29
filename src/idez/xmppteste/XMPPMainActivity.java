@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -22,7 +23,7 @@ public class XMPPMainActivity extends Activity {
         this.prefs.registerOnSharedPreferenceChangeListener(new OnSharedPreferenceChangeListener() {
 			@Override
 			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-				
+				((XMPPApplication) getApplication()).desconectar();
 			}
 		});
     }
@@ -41,13 +42,22 @@ public class XMPPMainActivity extends Activity {
 			startActivity(new Intent(this, PrefsActivity.class));
 			break;
 		case R.id.itemContacts:
-			startActivity(new Intent(this, ChatActivity.class));
+			startActivity(new Intent(this, BuddiesActivity.class));
 			break;
 		case R.id.itemConnect:
-			((XMPPApplication) getApplication()).conectar();
+			new Conexao().execute();
 			
 			break;
 		}
 		return true;
+	}
+	
+	class Conexao extends AsyncTask<String, String, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			return ((XMPPApplication) getApplication()).conectar();
+		}
+		
+		
 	}
 }
