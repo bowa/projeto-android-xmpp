@@ -11,4 +11,11 @@
         android:layout_height="wrap_content"
         android:src="@drawable/xmpp_logo" />
 
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="24px" />
+
 </LinearLayout>

@@ -7,6 +7,7 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
@@ -54,22 +55,20 @@ public class XMPPApplication extends Application {
 			config.setSecurityMode(SecurityMode.required);
 			break;
 		}
-		config.setSASLAuthenticationEnabled(prefs.getBoolean("sas", false));
-		config.setSASLAuthenticationEnabled(true);
-		config.setSecurityMode(SecurityMode.required);
+		config.setSASLAuthenticationEnabled(prefs.getBoolean("sasl", true));
 		xmppConnection = new XMPPConnection(config);
 		try {
 			Log.i("Conexão", "Iniciando conexão...");
 			xmppConnection.connect();
-			xmppConnection.login(username, password);
+			xmppConnection.login(username, password, "smack");
 			Log.i("Conexão", "Conectado!");
+			return "Conectado!";
 		} catch (Exception e) {
 			Log.i("Conexão", e.getMessage());
 			Toast.makeText(XMPPApplication.this, e.getMessage(),
 					Toast.LENGTH_LONG);
 			return e.getMessage();
 		}
-		return "Conectado.";
 	}
 
 	public void desconectar() {
@@ -86,12 +85,12 @@ public class XMPPApplication extends Application {
 			Roster roster = this.xmppConnection.getRoster();
 			Collection<RosterEntry> entries = roster.getEntries();
 			for (RosterEntry entry : entries) {
-				result.add(entry.getUser());
+				result.add(entry.getName());
 			}
 		}
 		return result;
 	}
-
+	
 	public XMPPConnection getXmppConnection() {
 		return xmppConnection;
 	}

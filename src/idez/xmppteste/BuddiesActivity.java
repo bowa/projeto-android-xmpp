@@ -34,5 +34,4 @@ public class BuddiesActivity extends ListActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	
 }

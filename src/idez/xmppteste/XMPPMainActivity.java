@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class XMPPMainActivity extends Activity {
@@ -57,7 +59,12 @@ public class XMPPMainActivity extends Activity {
 		protected String doInBackground(String... params) {
 			return ((XMPPApplication) getApplication()).conectar();
 		}
-		
+
+		@Override
+		protected void onPostExecute(String result) {
+			Toast.makeText(XMPPMainActivity.this, result, Toast.LENGTH_LONG);
+			((TextView)findViewById(R.id.textStatus)).setText(result);
+		}
 		
 	}
 }
