@@ -1,8 +1,11 @@
 package idez.xmppteste;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,7 +34,23 @@ public class BuddiesActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.buddies_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.itemDisconnect:
+			((XMPPApplication) getApplication()).desconectar();
+			startActivity(new Intent(null, XMPPApplication.class));
+			break;
+		case R.id.itemContacts:
+			startActivity(new Intent(this, BuddiesActivity.class));
+			break;
+		}
+		return true;
 	}
 
 }

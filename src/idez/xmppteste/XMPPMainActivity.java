@@ -3,13 +3,16 @@ package idez.xmppteste;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +26,10 @@ public class XMPPMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        this.prefs.registerOnSharedPreferenceChangeListener(new OnSharedPreferenceChangeListener() {
+        ((Button)findViewById(R.id.buttonConectar)).setOnClickListener(new OnClickListener() {
 			@Override
-			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-				((XMPPApplication) getApplication()).desconectar();
+			public void onClick(View v) {
+				new Conexao().execute();
 			}
 		});
     }
@@ -47,23 +50,39 @@ public class XMPPMainActivity extends Activity {
 		case R.id.itemContacts:
 			startActivity(new Intent(this, BuddiesActivity.class));
 			break;
-		case R.id.itemConnect:
-			new Conexao().execute();
-			break;
 		}
 		return true;
 	}
 	
-	class Conexao extends AsyncTask<String, String, String> {
+	class Conexao extends AsyncTask<String, String, String[]> {
+		
 		@Override
-		protected String doInBackground(String... params) {
+		protected void onPreExecute() {
+	        ((ProgressBar)findViewById(R.id.progressBar1)).setVisibility(View.VISIBLE);
+	        ((Button)findViewById(R.id.buttonConectar)).setEnabled(false);
+			((TextView)findViewById(R.id.textStatus)).setText("Conectando...");
+		}
+
+		@Override
+		protected String[] doInBackground(String... params) {
 			return ((XMPPApplication) getApplication()).conectar();
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			Toast.makeText(XMPPMainActivity.this, result, Toast.LENGTH_LONG);
-			((TextView)findViewById(R.id.textStatus)).setText(result);
+		protected void onPostExecute(String[] result) {
+	        ((ProgressBar)findViewById(R.id.progressBar1)).setVisibility(View.INVISIBLE);
+	        Toast.makeText(XMPPMainActivity.this, result[1], Toast.LENGTH_LONG).show();
+			switch (Integer.parseInt(result[0])) {
+			case 1:
+				Intent i = new Intent(XMPPMainActivity.this, BuddiesActivity.class);
+				i.putExtra("teste", "TESTANDOOOO");
+				startActivity(i);
+				break;
+			case 2:
+		        ((Button)findViewById(R.id.buttonConectar)).setEnabled(true);
+			default:
+				break;
+			}
 		}
 		
 	}

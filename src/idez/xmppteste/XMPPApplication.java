@@ -28,7 +28,7 @@ public class XMPPApplication extends Application {
 		super.onCreate();
 	}
 
-	public String conectar() {
+	public String[] conectar() {
 		if (xmppConnection != null) {
 			if (xmppConnection.isConnected()) {
 				Log.i("Conexão", "Conexão aberta!");
@@ -42,8 +42,7 @@ public class XMPPApplication extends Application {
 		String host = prefs.getString("host", "talk.");
 		Integer port = Integer.parseInt(prefs.getString("port", "5223"));
 
-		ConnectionConfiguration config = new ConnectionConfiguration(host,
-				port, service);
+		ConnectionConfiguration config = new ConnectionConfiguration(host, port, service);
 		switch (Integer.parseInt(prefs.getString("security", "0"))) {
 		case 0:
 			config.setSecurityMode(SecurityMode.disabled);
@@ -62,12 +61,10 @@ public class XMPPApplication extends Application {
 			xmppConnection.connect();
 			xmppConnection.login(username, password, "smack");
 			Log.i("Conexão", "Conectado!");
-			return "Conectado!";
+			return new String[] {"1", "Conectado!"};
 		} catch (Exception e) {
 			Log.i("Conexão", e.getMessage());
-			Toast.makeText(XMPPApplication.this, e.getMessage(),
-					Toast.LENGTH_LONG);
-			return e.getMessage();
+			return new String[] {"2", e.getMessage()};
 		}
 	}
 
@@ -76,6 +73,7 @@ public class XMPPApplication extends Application {
 			if (this.xmppConnection.isConnected()) {
 				Log.i("Conexão", "Desconectando!");
 				this.xmppConnection.disconnect();
+				Toast.makeText(this, "Desconectado.", Toast.LENGTH_LONG).show();
 			}
 	}
 

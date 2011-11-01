@@ -10,7 +10,8 @@
     <string name="port">Porta</string>
     <string name="titleContacts">Contatos</string>
     <string name="titleConnect">Conectar</string>
-    <string name="titleCloseChat">Encerrar Conversa</string>
+    <string name="titleDisconnect">Desconectar</string>
+        <string name="titleCloseChat">Encerrar Conversa</string>
     <string name="titleListChats">Lista de Conversas</string>
     <string name="titleExit">Exit</string>
     <string name="sas">SAS Preferences</string>
