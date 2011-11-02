@@ -1,7 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp"
-    android:textSize="18sp" >
-</TextView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:baselineAligned="true"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="265dip"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/buddyListNome"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="This is text1"
+            android:textSize="25dip" />
+
+        <TextView
+            android:id="@+id/buddyListEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="This is text2" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_contact_picture_3" />
+
+</LinearLayout>
