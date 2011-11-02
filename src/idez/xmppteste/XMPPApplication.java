@@ -7,7 +7,6 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 
 import android.app.Application;
