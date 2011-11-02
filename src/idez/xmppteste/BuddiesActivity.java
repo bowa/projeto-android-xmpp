@@ -1,8 +1,16 @@
 package idez.xmppteste;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts.People;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,26 +18,53 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BuddiesActivity extends ListActivity {
 
+	private static final String NOMEKEY = "nome";
+	private static final String EMAILKEY = "email";
+	private static final String STATUSKEY = "status";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.buddies, ((XMPPApplication) getApplication()).showUsers() ));
+		SimpleAdapter sa = new SimpleAdapter(this,this.showUsers(),R.layout.buddies, new String[] {NOMEKEY, EMAILKEY}, new int[] {R.id.buddyListNome, R.id.buddyListEmail});
 		
 		ListView lv = getListView();
+		lv.setAdapter(sa);
+		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
 		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+				LinearLayout ll = (LinearLayout) view;
+				String email = ((TextView) ll.findViewById(R.id.buddyListEmail)).getText().toString() ;
+				Intent i = new Intent(BuddiesActivity.this, ChatActivity.class);
+				i.putExtra("email", email);
+				startActivity(i);
 			}
 		});
+	}
+	
+	private ArrayList<HashMap<String, String>> showUsers() {
+		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+		if (((XMPPApplication) getApplication()).getXmppConnection() != null) {
+			Roster roster = ((XMPPApplication) getApplication()).getXmppConnection().getRoster();
+			Collection<RosterEntry> entries = roster.getEntries();
+			for (RosterEntry entry : entries) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(NOMEKEY, entry.getName());
+				hm.put(EMAILKEY, entry.getUser());
+				result.add(hm);
+			}
+		}
+		return result;
 	}
 
 	@Override
