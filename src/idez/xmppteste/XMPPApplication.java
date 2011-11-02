@@ -38,9 +38,9 @@ public class XMPPApplication extends Application {
 		Log.i("Conexão", "Passando parâmetros da conexão...");
 		String username = prefs.getString("username", "");
 		String password = prefs.getString("password", "");
-		String service = prefs.getString("service", "");
-		String host = prefs.getString("host", "talk.");
-		Integer port = Integer.parseInt(prefs.getString("port", "5223"));
+		String service = prefs.getString("service", "gmail.com");
+		String host = prefs.getString("host", "talk.google.com");
+		Integer port = Integer.parseInt(prefs.getString("port", "5222"));
 
 		ConnectionConfiguration config = new ConnectionConfiguration(host, port, service);
 		switch (Integer.parseInt(prefs.getString("security", "0"))) {

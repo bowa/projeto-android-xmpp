@@ -6,6 +6,7 @@ import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,13 @@ public class ChatActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
+		
+		String buddy = "";
+		
+		Intent buddiesIntent = getIntent();
+		if (buddiesIntent != null) {
+				buddy = buddiesIntent.getStringExtra("email");				
+		}		
 		
 		Button botaoEnviar = (Button) findViewById(R.id.botaoEnviar);
 		botaoEnviar.setOnClickListener(new OnClickListener() {
@@ -51,14 +59,13 @@ public class ChatActivity extends Activity {
 		return true;
 	}
 
-	public void iniciarChat(String user) {
-		currentChat = chatManager.createChat(user,
+	public void iniciarChat(String buddy) {
+		currentChat = chatManager.createChat(buddy, 
 				// THIS CODE NEVER GETS CALLED FOR SOME REASON
 				new MessageListener() {
 
 			@Override
-			public void processMessage(Chat chat,
-					org.jivesoftware.smack.packet.Message msg) {
+			public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message msg) {
 			};
 
 		});
@@ -67,7 +74,8 @@ public class ChatActivity extends Activity {
 	public void enviarMsg() {
 		try {
 			currentChat.sendMessage(((TextView)findViewById(R.id.editTextMsg)).getText().toString());
-		} catch (XMPPException e) {
+		} 
+		catch (XMPPException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
