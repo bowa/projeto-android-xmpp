@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PrefsActivity"></activity>
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".BuddiesActivity"></activity>
+        <activity android:name=".PrefsActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".BuddiesActivity" />
         </application>
 
 </manifest>

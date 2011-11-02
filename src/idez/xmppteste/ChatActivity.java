@@ -29,12 +29,13 @@ public class ChatActivity extends Activity {
 		
 		Intent buddiesIntent = getIntent();
 		if (buddiesIntent != null) {
-				buddy = buddiesIntent.getStringExtra("email");				
+			buddy = buddiesIntent.getStringExtra("email");				
 		}		
 		
+		this.iniciarChat(buddy);
+		
 		Button botaoEnviar = (Button) findViewById(R.id.botaoEnviar);
-		botaoEnviar.setOnClickListener(new OnClickListener() {
-			
+		botaoEnviar.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				enviarMsg();
