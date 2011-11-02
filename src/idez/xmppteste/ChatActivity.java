@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class ChatActivity extends Activity {
 	private Chat currentChat;
-	private ChatManager chatManager = ((XMPPApplication) this.getApplication()).getXmppConnection().getChatManager();
+	private ChatManager chatManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class ChatActivity extends Activity {
 		setContentView(R.layout.chat);
 		
 		String buddy = "";
-		
+		chatManager = ((XMPPApplication) this.getApplication()).getXmppConnection().getChatManager();
 		Intent buddiesIntent = getIntent();
 		if (buddiesIntent != null) {
 			buddy = buddiesIntent.getStringExtra("email");				
