@@ -31,6 +31,8 @@ public class ChatActivity extends Activity {
 	private boolean ISTALKING;
 	private String buddy = "";
 	EditText janelaConversa = (EditText) findViewById(R.id.editTextConversa);
+	//em Android, quando se está em outra thread que não seja a principal da activity, você não pode alterar as informações da view sem utilizar o handler
+	//o handler é uma variável que ao receber uma mensagem ele executa alguma ação
 	private Handler handler = new Handler();
 	
 	@Override
