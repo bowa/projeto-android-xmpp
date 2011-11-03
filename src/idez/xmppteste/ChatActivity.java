@@ -9,13 +9,13 @@ import org.jivesoftware.smack.filter.AndFilter;
 import org.jivesoftware.smack.filter.FromContainsFilter;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
-import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -113,10 +113,9 @@ public class ChatActivity extends Activity {
 					org.jivesoftware.smack.packet.Message msg = (org.jivesoftware.smack.packet.Message) packet;
 					if (msg.getBody() != null) {
 						Message msgH = new Message();
-						msgH.what = XMPP_MESSAGE;
 						msgH.obj = msg.getBody();
 						handler.sendMessage(msgH);
-						janelaConversa.append("< " + buddy + ": " + msg.obj + "\n");
+						janelaConversa.append("< " + buddy + ": " + msgH.obj + "\n");
 //						this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
 					}
 				}
