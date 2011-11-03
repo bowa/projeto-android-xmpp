@@ -15,7 +15,7 @@ import org.jivesoftware.smack.packet.Packet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +31,8 @@ public class ChatActivity extends Activity {
 	private boolean ISTALKING;
 	private String buddy = "";
 	EditText janelaConversa = (EditText) findViewById(R.id.editTextConversa);
-
+	private Handler handler = new Handler();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class ChatActivity extends Activity {
 		}
 		return true;
 	}
-
+	
 	public void iniciarChat(String buddy) {
 		ISTALKING = true;
 		currentChat = chatManager.createChat(buddy, 
@@ -95,21 +96,52 @@ public class ChatActivity extends Activity {
 		}
 	}
 	
-	public void receberMensagem() {
-		// Accept only messages from friend
-		PacketFilter filter = new AndFilter(new PacketTypeFilter(Message.class), new FromContainsFilter(buddy));
-		// Collect these messages
-		PacketCollector collector = ((XMPPApplication) getApplication()).getXmppConnection().createPacketCollector(filter);
-		while (ISTALKING) {
-			Packet packet = collector.nextResult();
-//			if (Message.class) {
-				Message msg = (Message) packet;
-				if (msg.getBody() != null) {
-//					Log.i(buddy, msg.getBody());
-					this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
+	private class TalkLiveCycle implements Runnable {
+
+		@Override
+		public void run() {
+			ISTALKING = true;
+			// Accept only messages from friend
+			PacketFilter filter = new AndFilter(new PacketTypeFilter(org.jivesoftware.smack.packet.Message.class), new FromContainsFilter(buddy));
+			// Collect these messages
+			PacketCollector collector = ((XMPPApplication) getApplication()).getXmppConnection().createPacketCollector(filter);
+
+			while (ISTALKING) {
+				Packet packet = collector.nextResult();
+
+				if (packet instanceof org.jivesoftware.smack.packet.Message) {
+					org.jivesoftware.smack.packet.Message msg = (org.jivesoftware.smack.packet.Message) packet;
+					if (msg.getBody() != null) {
+						Message msgH = new Message();
+						msgH.what = XMPP_MESSAGE;
+						msgH.obj = msg.getBody();
+						handler.sendMessage(msgH);
+						janelaConversa.append("< " + buddy + ": " + msg.obj + "\n");
+//						this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
+					}
 				}
-//			}
+			}
 		}
 
 	}
+	
+//	public void receberMensagem() {
+//		ISTALKING = true;
+//		// Accept only messages from friend
+//		PacketFilter filter = new AndFilter(new PacketTypeFilter(org.jivesoftware.smack.packet.Message.class), new FromContainsFilter(buddy));
+//		// Collect these messages
+//		PacketCollector collector = ((XMPPApplication) getApplication()).getXmppConnection().createPacketCollector(filter);
+//		
+//		while (ISTALKING) {
+//			Packet packet = collector.nextResult();
+////			if (Message.class) {
+//				Message msg = (Message) packet;
+//				if (msg.getBody() != null) {
+////					Log.i(buddy, msg.getBody());
+//					this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
+//				}
+////			}
+//		}
+//
+//	}
 }
