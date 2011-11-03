@@ -30,7 +30,8 @@ public class ChatActivity extends Activity {
 	private ChatManager chatManager;
 	private boolean ISTALKING;
 	private String buddy = "";
-	EditText janelaConversa = (EditText) findViewById(R.id.editTextConversa);
+	private EditText janelaConversa;
+	
 	//em Android, quando se está em outra thread que não seja a principal da activity, você não pode alterar as informações da view sem utilizar o handler
 	//o handler é uma variável que ao receber uma mensagem ele executa alguma ação
 	private Handler handler = new Handler();
@@ -39,6 +40,8 @@ public class ChatActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
+		
+		janelaConversa = (EditText) findViewById(R.id.editTextConversa);
 		
 		chatManager = ((XMPPApplication) this.getApplication()).getXmppConnection().getChatManager();
 		Intent buddiesIntent = getIntent();
@@ -84,6 +87,8 @@ public class ChatActivity extends Activity {
 			public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message msg) {
 			};
 		});
+		// Start TalkLiveCycle
+		new Thread(new TalkLiveCycle()).start();
 	}
 
 	public void enviarMsg() {
@@ -117,7 +122,7 @@ public class ChatActivity extends Activity {
 						Message msgH = new Message();
 						msgH.obj = msg.getBody();
 						handler.sendMessage(msgH);
-						janelaConversa.append("< " + buddy + ": " + msgH.obj + "\n");
+						janelaConversa.append("\n< " + buddy + ": " + msgH.obj + "\n");
 //						this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
 					}
 				}
