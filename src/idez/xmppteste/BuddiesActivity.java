@@ -2,6 +2,8 @@ package idez.xmppteste;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.jivesoftware.smack.Roster;
@@ -31,7 +33,7 @@ public class BuddiesActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		SimpleAdapter sa = new SimpleAdapter(this,this.showUsers(),R.layout.buddies, new String[] {NOMEKEY, EMAILKEY}, new int[] {R.id.buddyListNome, R.id.buddyListEmail});
+		SimpleAdapter sa = new SimpleAdapter(this, this.showUsers(), R.layout.buddies, new String[] {NOMEKEY, EMAILKEY}, new int[] {R.id.buddyListNome, R.id.buddyListEmail});
 		
 		ListView lv = getListView();
 		lv.setAdapter(sa);
@@ -61,6 +63,16 @@ public class BuddiesActivity extends ListActivity {
 				result.add(hm);
 			}
 		}
+		
+		Comparator<HashMap<String, String>> comparator = new Comparator<HashMap<String, String>>() {                                    
+	        @Override
+	        public int compare(HashMap<String, String> object1, HashMap<String, String> object2) {
+	        	return object1.get(NOMEKEY).compareToIgnoreCase(object2.get(NOMEKEY));
+	        }
+		};
+		
+		Collections.sort(result, comparator);
+		
 		return result;
 	}
 

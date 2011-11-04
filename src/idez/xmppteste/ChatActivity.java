@@ -95,7 +95,7 @@ public class ChatActivity extends Activity {
 		try {
 			String msg = ((TextView)findViewById(R.id.editTextMsg)).getText().toString();
 			currentChat.sendMessage(msg);
-			this.janelaConversa.setText(janelaConversa.getText() + msg, TextView.BufferType.EDITABLE);
+			janelaConversa.append("< " + "Eu: " + msg + "\n");
 		} 
 		catch (XMPPException e) {
 			// TODO Auto-generated catch block
@@ -122,7 +122,7 @@ public class ChatActivity extends Activity {
 						Message msgH = new Message();
 						msgH.obj = msg.getBody();
 						handler.sendMessage(msgH);
-						janelaConversa.append("\n< " + buddy + ": " + msgH.obj + "\n");
+						janelaConversa.append("< " + buddy + ": " + msg + "\n");
 //						this.janelaConversa.setText(janelaConversa.getText() + msg.getBody().toString(), TextView.BufferType.EDITABLE);
 					}
 				}
