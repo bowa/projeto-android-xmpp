@@ -1,12 +1,5 @@
 package idez.xmppteste;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.RosterEntry;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,22 +15,14 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class BuddiesActivity extends ListActivity {
-
-	private static final String NOMEKEY = "nome";
-	private static final String EMAILKEY = "email";
-	private static final String STATUSKEY = "status";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		SimpleAdapter sa = new SimpleAdapter(this,this.showUsers(),R.layout.buddies, new String[] {NOMEKEY, EMAILKEY}, new int[] {R.id.buddyListNome, R.id.buddyListEmail});
-		
+		XMPPApplication app = (XMPPApplication) getApplication();
+		SimpleAdapter sa = new SimpleAdapter(this,app.getBuddies(),R.layout.buddies, new String[] {XMPPApplication.NOMEKEY, XMPPApplication.STATUSKEY}, new int[] {R.id.buddyListNome, R.id.buddyListEmail});
 		ListView lv = getListView();
 		lv.setAdapter(sa);
-		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		lv.setTextFilterEnabled(true);
-		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				LinearLayout ll = (LinearLayout) view;
@@ -49,21 +34,6 @@ public class BuddiesActivity extends ListActivity {
 		});
 	}
 	
-	private ArrayList<HashMap<String, String>> showUsers() {
-		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-		if (((XMPPApplication) getApplication()).getXmppConnection() != null) {
-			Roster roster = ((XMPPApplication) getApplication()).getXmppConnection().getRoster();
-			Collection<RosterEntry> entries = roster.getEntries();
-			for (RosterEntry entry : entries) {
-				HashMap<String, String> hm = new HashMap<String, String>();
-				hm.put(NOMEKEY, entry.getName());
-				hm.put(EMAILKEY, entry.getUser());
-				result.add(hm);
-			}
-		}
-		return result;
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

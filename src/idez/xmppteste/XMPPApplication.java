@@ -2,13 +2,15 @@ package idez.xmppteste;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.SASLAuthentication;
+import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Presence;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -21,7 +23,11 @@ public class XMPPApplication extends Application {
 	private ArrayList<ChatActivity> activeChats = new ArrayList<ChatActivity>();
 	private XMPPConnection xmppConnection = null;
 	private SharedPreferences prefs;
-
+	private ArrayList<HashMap<String, String>> buddies = new ArrayList<HashMap<String,String>>();
+	public static final String NOMEKEY = "nome";
+	public static final String EMAILKEY = "email";
+	public static final String STATUSKEY = "status";
+	
 	@Override
 	public void onCreate() {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -60,6 +66,34 @@ public class XMPPApplication extends Application {
 			Log.i("Conexão", "Iniciando conexão...");
 			xmppConnection.connect();
 			xmppConnection.login(username, password, "smack");
+			Presence presence = new Presence(Presence.Type.available);
+			xmppConnection.sendPacket(presence);
+			this.showUsers();
+			xmppConnection.getRoster().addRosterListener(new RosterListener() {
+				@Override
+				public void presenceChanged(Presence p) {
+					for (HashMap<String, String> b : buddies) {
+						if (b.get(EMAILKEY).equals(p.getFrom().split("/")[0])) {
+							b.put(STATUSKEY, p.getType().name());
+						}
+					}
+				}
+				
+				@Override
+				public void entriesUpdated(Collection<String> eu) {
+					Log.i("ROSTER_EU", eu.toString());
+				}
+				
+				@Override
+				public void entriesDeleted(Collection<String> ed) {
+					Log.i("ROSTER_ED", ed.toString());
+				}
+				
+				@Override
+				public void entriesAdded(Collection<String> ea) {
+					Log.i("ROSTER_EA", ea.toString());
+				}
+			});
 			Log.i("Conexão", "Conectado!");
 			return new String[] {"1", "Conectado!"};
 		} catch (Exception e) {
@@ -76,17 +110,20 @@ public class XMPPApplication extends Application {
 				Toast.makeText(this, "Desconectado.", Toast.LENGTH_LONG).show();
 			}
 	}
-
-	public ArrayList<String> showUsers() {
-		ArrayList<String> result = new ArrayList<String>();
+	
+	private void showUsers() {
+		buddies = new ArrayList<HashMap<String, String>>();
 		if (this.xmppConnection != null) {
 			Roster roster = this.xmppConnection.getRoster();
 			Collection<RosterEntry> entries = roster.getEntries();
 			for (RosterEntry entry : entries) {
-				result.add(entry.getName());
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(NOMEKEY, entry.getName());
+				hm.put(EMAILKEY, entry.getUser());
+				hm.put(STATUSKEY, Presence.Type.unavailable.name());
+				buddies.add(hm);
 			}
 		}
-		return result;
 	}
 	
 	public XMPPConnection getXmppConnection() {
@@ -104,4 +141,10 @@ public class XMPPApplication extends Application {
 	public void setActiveChats(ArrayList<ChatActivity> activeChats) {
 		this.activeChats = activeChats;
 	}
+
+	public ArrayList<HashMap<String, String>> getBuddies() {
+		return buddies;
+	}
+	
+	
 }

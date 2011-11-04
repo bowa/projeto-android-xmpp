@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ChatActivity extends Activity {
@@ -61,14 +62,11 @@ public class ChatActivity extends Activity {
 	}
 
 	public void iniciarChat(String buddy) {
-		currentChat = chatManager.createChat(buddy, 
-				// THIS CODE NEVER GETS CALLED FOR SOME REASON
-				new MessageListener() {
-
+		currentChat = chatManager.createChat(buddy, new MessageListener() {
 			@Override
 			public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message msg) {
+				((EditText)findViewById(R.id.editTextConversa)).append(msg.getBody());
 			};
-
 		});
 	}
 
@@ -77,7 +75,6 @@ public class ChatActivity extends Activity {
 			currentChat.sendMessage(((TextView)findViewById(R.id.editTextMsg)).getText().toString());
 		} 
 		catch (XMPPException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
