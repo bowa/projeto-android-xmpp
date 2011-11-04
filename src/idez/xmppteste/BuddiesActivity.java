@@ -1,5 +1,14 @@
 package idez.xmppteste;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +24,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class BuddiesActivity extends ListActivity {
+	
+	public static final String NOMEKEY = "nome";
+	public static final String EMAILKEY = "email";
+	public static final String STATUSKEY = "status";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,31 @@ public class BuddiesActivity extends ListActivity {
 		});
 	}
 	
+	private ArrayList<HashMap<String, String>> showUsers() {
+		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+		if (((XMPPApplication) getApplication()).getXmppConnection() != null) {
+			Roster roster = ((XMPPApplication) getApplication()).getXmppConnection().getRoster();
+			Collection<RosterEntry> entries = roster.getEntries();
+			for (RosterEntry entry : entries) {
+				HashMap<String, String> hm = new HashMap<String, String>();
+				hm.put(NOMEKEY, entry.getName());
+				hm.put(EMAILKEY, entry.getUser());
+				result.add(hm);
+			}
+		}
+		
+		Comparator<HashMap<String, String>> comparator = new Comparator<HashMap<String, String>>() {                                    
+	        @Override
+	        public int compare(HashMap<String, String> object1, HashMap<String, String> object2) {
+	        	return object1.get(NOMEKEY).compareToIgnoreCase(object2.get(NOMEKEY));
+	        }
+		};
+		
+		Collections.sort(result, comparator);
+		
+		return result;
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
