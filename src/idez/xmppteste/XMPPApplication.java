@@ -23,7 +23,7 @@ public class XMPPApplication extends Application {
 	private ArrayList<ChatActivity> activeChats = new ArrayList<ChatActivity>();
 	private XMPPConnection xmppConnection = null;
 	private SharedPreferences prefs;
-	private ArrayList<HashMap<String, String>> buddies = new ArrayList<HashMap<String,String>>();
+	private ArrayList<HashMap<String, Object>> buddies = new ArrayList<HashMap<String, Object>>();
 	public static final String NOMEKEY = "nome";
 	public static final String EMAILKEY = "email";
 	public static final String STATUSKEY = "status";
@@ -72,9 +72,17 @@ public class XMPPApplication extends Application {
 			xmppConnection.getRoster().addRosterListener(new RosterListener() {
 				@Override
 				public void presenceChanged(Presence p) {
-					for (HashMap<String, String> b : buddies) {
+					Log.i("ROSTER", p.getType().name());
+					for (HashMap<String, Object> b : buddies) {
 						if (b.get(EMAILKEY).equals(p.getFrom().split("/")[0])) {
-							b.put(STATUSKEY, p.getType().name());
+							if (p.getType().name().equalsIgnoreCase("available"))
+								b.put(STATUSKEY, R.drawable.available);
+							if (p.getType().name().equalsIgnoreCase("busy"))
+								b.put(STATUSKEY, R.drawable.busy);
+							if (p.getType().name().equalsIgnoreCase("away"))
+								b.put(STATUSKEY, R.drawable.away);
+							if (p.getType().name().equalsIgnoreCase("offline"))
+								b.put(STATUSKEY, R.drawable.offline);
 						}
 					}
 				}
@@ -112,15 +120,15 @@ public class XMPPApplication extends Application {
 	}
 	
 	private void showUsers() {
-		buddies = new ArrayList<HashMap<String, String>>();
+		buddies = new ArrayList<HashMap<String, Object>>();
 		if (this.xmppConnection != null) {
 			Roster roster = this.xmppConnection.getRoster();
 			Collection<RosterEntry> entries = roster.getEntries();
 			for (RosterEntry entry : entries) {
-				HashMap<String, String> hm = new HashMap<String, String>();
+				HashMap<String, Object> hm = new HashMap<String, Object>();
 				hm.put(NOMEKEY, entry.getName());
 				hm.put(EMAILKEY, entry.getUser());
-				hm.put(STATUSKEY, Presence.Type.unavailable.name());
+				hm.put(STATUSKEY, R.drawable.offline);
 				buddies.add(hm);
 			}
 		}
@@ -142,7 +150,7 @@ public class XMPPApplication extends Application {
 		this.activeChats = activeChats;
 	}
 
-	public ArrayList<HashMap<String, String>> getBuddies() {
+	public ArrayList<HashMap<String, Object>> getBuddies() {
 		return buddies;
 	}
 	

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="available">@android:drawable/presence_online</drawable>
+    <drawable name="busy">@android:drawable/presence_busy</drawable>
+    <drawable name="away">@android:drawable/presence_away</drawable>
+    <drawable name="offline">@android:drawable/presence_invisible</drawable>
+
+    
+</resources>

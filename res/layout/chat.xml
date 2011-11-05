@@ -4,16 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/editTextConversa"
+    <ListView
+        android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_weight="0.89"
-        android:inputType="textMultiLine">
+        android:layout_height="fill_parent"
+        android:layout_weight="0.80" >
+    </ListView>
 
-        <requestFocus />
-    </EditText>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -32,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.20"
             android:text="Enviar" />
-
     </LinearLayout>
 
 </LinearLayout>
