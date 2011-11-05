@@ -110,12 +110,14 @@ public class ChatActivity extends Activity {
 		                if (message.getBody() != null) {
 		                	final String msg = message.getBody();
 		                    final String fromName = StringUtils.parseBareAddress(message.getFrom());
-		                    myHandler.post(new Runnable() {
-								@Override
-								public void run() {
-				                    receber_mensagem(fromName, msg);
-								}
-							});
+		                    if (fromName.equals(ChatActivity.this.buddy)) {
+				                    myHandler.post(new Runnable() {
+										@Override
+										public void run() {
+						                    receber_mensagem(fromName, msg);
+										}
+									});
+		                    }
 	        			}
 					}
 				}, new MessageTypeFilter(Message.Type.chat));
